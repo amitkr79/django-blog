@@ -1,0 +1,103 @@
+{% extends "layout.html" %} {% block content%}
+
+<!-- Page content-->
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-lg-8">
+      <!-- Post content-->
+      <article>
+        <!-- Post header-->
+        <header class="mb-4">
+          <!-- Post title-->
+          <h1 class="fw-bolder mb-1">{{single_blog.title}}</h1>
+          <!-- Post meta content-->
+          <div class="text-muted fst-italic mb-2">
+            Posted on {{single_blog.created_at}} by {{single_blog.author}}
+          </div>
+          <!-- Post category-->
+          <a class="badge bg-warning text-decoration-none text-light" href="#!"
+            >{{single_blog.category}}</a
+          >
+        </header>
+        <!-- Preview image figure-->
+        <figure class="mb-4">
+          <img
+            class="img-fluid rounded"
+            src="{% if single_blog.featured_image %}{{ single_blog.featured_image.url }}{% else %}{{ single_blog.featured_image_url }}{% endif %}"
+            alt="..."
+          />
+        </figure>
+        <!-- Post content-->
+        <section class="mb-5">
+          <div
+            class="bg-light p-4 rounded mb-4 border-start border-4 border-primary"
+          >
+            <p class="fs-5 fst-italic mb-0">
+              {{ single_blog.short_description }}
+            </p>
+          </div>
+          <p class="fs-5 mb-4">{{single_blog.blog_body| linebreaks}}</p>
+        </section>
+      </article>
+    </div>
+    <!-- Side widgets-->
+    <div class="col-lg-4">
+      <!-- Search widget-->
+      {% comment %} <div class="card mb-4">
+        <div class="card-header">Search</div>
+        <div class="card-body">
+          <div class="input-group">
+            <input
+              class="form-control"
+              type="text"
+              placeholder="Enter search term..."
+              aria-label="Enter search term..."
+              aria-describedby="button-search"
+            />
+            <button class="btn btn-primary" id="button-search" type="button">
+              Go!
+            </button>
+          </div>
+        </div>
+      </div> {% endcomment %}
+      <!-- Categories widget-->
+      <div class="card mb-4 p-3">
+        <h4 class="font-italic">Categories</h4>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-sm-6">
+              <ul class="list-unstyled mb-0">
+                {% for cat in categories %}
+                <li>
+                  <a href="{% url 'posts_by_category' cat.id %}"
+                    >{{cat.category_name}}</a
+                  >
+                </li>
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Side widget-->
+      <div class="card mb-4 p-3">
+        <h4 class="font-italic">Follow Us</h4>
+        {% if social_links %}
+        <ul class="list-unstyled">
+          {% for link in social_links %}
+          <li class="mb-2">
+            <a href="{{ link.social_link }}" target="_blank">
+              {{ link.get_social_media_display }}
+            </a>
+          </li>
+          {% empty %}
+          <li>No social links available.</li>
+          {% endfor %}
+        </ul>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

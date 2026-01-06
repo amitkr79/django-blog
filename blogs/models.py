@@ -36,3 +36,28 @@ class Blog(models.Model):
     
     def __str__(self):
         return f"{self.title}"
+
+SOCIAL_MEDIA_CHOICES = (
+        ('facebook', 'Facebook'),
+        ('instagram', 'Instagram'),
+        ('twitter', 'Twitter / X'),
+        ('linkedin', 'LinkedIn'),
+        ('github', 'GitHub'),
+        ('youtube', 'YouTube'),
+        ('website', 'Personal Website'),
+)
+
+class AuthorProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    bio = models.TextField(max_length=500, blank=True)
+    joined = models.DateField(auto_now=True)
+
+
+class SocialLink(models.Model):
+    profile = models.ForeignKey(
+        AuthorProfile,
+        on_delete=models.CASCADE,
+        related_name='links'
+    )
+    social_media = models.CharField(max_length=20, choices=SOCIAL_MEDIA_CHOICES)
+    social_link = models.URLField()

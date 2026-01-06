@@ -1,5 +1,13 @@
 from django.contrib import admin
-from .models import Category,Blog
+from .models import Category,Blog,AuthorProfile,SocialLink
+
+class SocialLinkInline(admin.TabularInline):
+    model = SocialLink
+    extra = 1
+
+class AuthorProfileAdmin(admin.ModelAdmin):
+    list_display = ('user','joined')
+    inlines = [SocialLinkInline]
 
 #prepopulating hte slug field as per the title
 class BlogAdmin(admin.ModelAdmin):
@@ -12,3 +20,4 @@ class BlogAdmin(admin.ModelAdmin):
 # Register your models here.
 admin.site.register(Category)
 admin.site.register(Blog,BlogAdmin)
+admin.site.register(AuthorProfile,AuthorProfileAdmin)
